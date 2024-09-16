@@ -1,0 +1,89 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.example</groupId>
+    <artifactId>javasmt-const-array-mwe</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <packaging>jar</packaging>
+
+    <name>JavaSMT const_array MWE</name>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.dependency.relativepath>dependency</project.dependency.relativepath>
+        <project.dependency.path>${project.build.directory}/${project.dependency.relativepath}</project.dependency.path>
+        <bitwuzla.version>0.4.0-g4dbf3b1f</bitwuzla.version>
+    </properties>
+
+    <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.1</version>
+                <configuration>
+                    <source>10</source>
+                    <target>10</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>3.1.1</version>
+                <executions>
+                    <!-- "copy" renames the native dependencies from their internal Maven name to
+                    the normal
+          library name -->
+                    <execution>
+                        <id>copy</id>
+                        <phase>initialize</phase>
+                        <goals>
+                            <goal>copy</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <outputDirectory>${project.dependency.path}</outputDirectory>
+                    <overWriteReleases>true</overWriteReleases>
+                    <artifactItems>
+                        <artifactItem>
+                            <groupId>org.sosy-lab</groupId>
+                            <artifactId>javasmt-solver-bitwuzla</artifactId>
+                            <type>so</type>
+                            <classifier>libbitwuzlaj</classifier>
+                            <destFileName>libbitwuzlaj.so</destFileName>
+                        </artifactItem>
+                    </artifactItems>
+                </configuration>
+            </plugin>
+        </plugins>
+        <resources>
+            <resource>
+                <directory>${project.dependency.path}</directory>
+            </resource>
+        </resources>
+    </build>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.sosy-lab</groupId>
+            <artifactId>java-smt</artifactId>
+            <version>5.0.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.sosy-lab</groupId>
+            <artifactId>javasmt-solver-bitwuzla</artifactId>
+            <version>${bitwuzla.version}</version>
+            <type>jar</type>
+            <classifier>bitwuzla</classifier>
+        </dependency>
+        <dependency>
+            <groupId>org.sosy-lab</groupId>
+            <artifactId>javasmt-solver-bitwuzla</artifactId>
+            <version>${bitwuzla.version}</version>
+            <type>so</type>
+            <classifier>libbitwuzlaj</classifier>
+        </dependency>
+    </dependencies>
+</project>
